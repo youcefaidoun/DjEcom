@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+        Checkout
+{% endblock %}
+
+{% block content %}
+    <!-- checkout -->
+
+<div class="row m-1">
+  <div class="col-md-6">
+    <h3 class="navbar-brand">My Order</h3>
+    <table class="table text-center">
+      <thead class="thead-info bg-info">
+        <tr>
+          <th scope="col">SN</th>
+          <th scope="col">Product</th>
+          <th scope="col">Rate</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Subtotal</th>
+        </tr>
+      </thead>
+      <tbody class=" bg-light">
+        {% for cp in checkcart.cartproduct_set.all %}
+        <tr>
+          <th scope="row">{{forloop.counter}}</th>
+          <td scope="col">{{cp.product.title}}</td>
+          <td scope="col">{{cp.rate}}</td>
+          <td scope="col">{{cp.quantity}}</td>
+          <td scope="col">{{cp.subtotal}}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+          <td scope="col text-center" colspan="5">
+            <a class=" btn btn-success"
+               href="{% url 'ecomapp:mycart' %}">
+              Return To My Cart
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-md-1"></div>
+  <div class="col-md-4">
+        <form action="" method="POST">
+          <h5 class="navbar-brand">Checkout My Order</h5><br>
+          {% csrf_token%}
+          {{form|crispy}}
+          <button type="submit" class="btn btn-primary">Confirm order</button>
+        </form>
+        <div class=" mt-4 badge text-wrap" style="width: 6rem;">
+        </div>
+  </div>
+  <div class="col-md-1"></div>
+</div>
+{% endblock %}
