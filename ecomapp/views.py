@@ -250,9 +250,9 @@ class CeckoutView(CreateView):
         elif request.user.is_authenticated==False:
             try:
                 if request.user:
-                    return redirect('/register/?next=/checkout/')
+                    return redirect('/accounts/signup/?next=/checkout/')
             except:
-                return redirect('/login/?next=/checkout/')
+                return redirect('/accounts/login/?next=/checkout/')
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
