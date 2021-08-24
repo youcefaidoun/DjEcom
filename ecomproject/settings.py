@@ -25,11 +25,9 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-<<<<<<< HEAD
+
 ALLOWED_HOSTS = ['127.0.0.1', 'ecomdjdz.herokuapp.com']
-=======
-ALLOWED_HOSTS = [127.0.0.1, "ecomdjdz.herokuapp.com"]
->>>>>>> b2708477b1ad24fefef67c4970fce8e1d0dab408
+
 
 
 # Application definition
