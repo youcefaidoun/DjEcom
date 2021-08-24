@@ -237,8 +237,8 @@ class EmptyCartView(View):
             cart.total = 0
             cart.save()
         return redirect("ecomapp:mycart")
-        
-@login_required
+
+
 class CeckoutView(CreateView):
     template_name = "checkout.html"
     form_class =checkoutForm
@@ -246,7 +246,7 @@ class CeckoutView(CreateView):
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            print("*****11111111111****")
+            pass
         elif request.user.is_authenticated==False:
             try:
                 if request.user:
