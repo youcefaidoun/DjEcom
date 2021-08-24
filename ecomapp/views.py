@@ -237,7 +237,8 @@ class EmptyCartView(View):
             cart.total = 0
             cart.save()
         return redirect("ecomapp:mycart")
-
+        
+@login_required
 class CeckoutView(CreateView):
     template_name = "checkout.html"
     form_class =checkoutForm
