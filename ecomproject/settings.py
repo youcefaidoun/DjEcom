@@ -27,7 +27,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = True
 
 
-ALLOWED_HOSTS = ['djecomdz.herokuapp.com']
+ALLOWED_HOSTS = ['ecomdzdj.herokuapp.com']
 
 
 
