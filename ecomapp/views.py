@@ -15,7 +15,7 @@ from django.utils.decorators import method_decorator
 from django.core.mail import send_mail
 from django.conf import settings
 
-from allauth.account.forms import SignupForm, LoginForm 
+from allauth.account.forms import SignupForm, LoginForm
 from allauth.account.views import SignupView
 
 
@@ -48,7 +48,7 @@ def profile_update(request):
         form = ProfileForm(request.POST)
 
         if form.is_valid():
-            user.first_name = form.cleaned_data['first_name'] 
+            user.first_name = form.cleaned_data['first_name']
             user.last_name = form.cleaned_data['last_name']
             user.save()
 
@@ -244,11 +244,11 @@ class CeckoutView(CreateView):
     success_url = reverse_lazy("ecomapp:home")
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated and request.user.customer:
+        if request.user.is_authenticated:
             print("*****11111111111****")
         elif request.user.is_authenticated==False:
             try:
-                if request.user.customer:
+                if request.user:
                     return redirect('/register/?next=/checkout/')
             except:
                 return redirect('/login/?next=/checkout/')
@@ -280,7 +280,7 @@ class CeckoutView(CreateView):
         else:
             return redirect("ecomapp:home")
         return super().form_valid(form)
-        
+
 
 
 class customerProfileView(TemplateView):
@@ -295,7 +295,7 @@ class customerProfileView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        customer = self.request.user.customer
+        customer = self.request.user
         context["customer"] = customer
         orders = Order.objects.filter(cart__customer=customer).order_by("-id")
         context['orders'] = orders
@@ -307,13 +307,13 @@ class customerOrderDetailView(DetailView):
     context_object_name = "order_obj"
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated and request.user.customer:
+        if request.user.is_authenticated:
             order_id = self.kwargs["pk"]
             try:
                 order = Order.objects.get(id=order_id)
             except Order.DoesNotExist:
                 raise Http404
-            if request.user.customer != order.cart.customer:
+            if request.user != order.cart.customer:
                 return redirect("ecomapp:customerprofile")
         else:
             return redirect('login/?next=/profile/')
@@ -339,4 +339,3 @@ class searchView(TemplateView):
         )
         context["product_results"] = results
         return context
-
