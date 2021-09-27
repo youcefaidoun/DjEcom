@@ -1,0 +1,52 @@
+from django.urls import path
+from .views import *
+from django.contrib.auth.decorators import login_required
+
+app_name = "ecomapp"
+
+urlpatterns = [
+    path("",
+         HomeView.as_view(),
+         name="home"),
+    path("products-by-category/<slug:slug>/",
+         CategoryView.as_view(),
+         name="category"),
+    path("about/",
+         AboutView.as_view(),
+         name="about"),
+    path("contact-us/",
+         ContactView.as_view(),
+         name="contact"),
+    path("product/<slug:slug>/",
+         ProductDetailView.as_view(),
+         name="productdetail"),
+    path("add-to-cart-<int:product_id>/",
+         AddToCartView.as_view(),
+         name="addtocart"),
+    path("my-cart/",
+         MyCartView.as_view(),
+         name="mycart"),
+    path("manage-cart/<int:cp_id>",
+         ManageCartView.as_view(),
+         name="managecart"),
+    path("empty-cart/",
+         EmptyCartView.as_view(),
+         name="emptycart"),
+    path("checkout/",
+         CeckoutView.as_view(),
+         name="checkout"),
+    path("profile/order-<int:pk>/",
+         customerOrderDetailView.as_view(),
+         name="customerorderdetail"),
+    path("search/",
+         searchView.as_view(),
+         name="search"),
+    path('accounts/password/change/',
+        login_required(
+            MyPasswordChangeView.as_view()), 
+        name="account_change_password"),
+    path('accounts/profile/',
+        profile, name='profile'),
+    path('accounts/profile/update', 
+        profile_update, name='profile_update'),
+]

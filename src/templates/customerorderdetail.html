@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+
+{% block title %}
+        Order Detail
+{% endblock %}
+
+{% block content %}
+    <!-- checkout -->
+
+<div class="row m-1">
+    <div class="col-md-2"></div>
+    <div class="col-md-8 text-center">
+        <h3 class="navbar-brand">Order Detail</h3>
+
+        <table class="table table-bordered text-center  bg-info">
+            <tr>
+                <th > Order ID </th>
+                <th class="bg-light">{{order_obj.id}}</th>
+            </tr>
+            <tr class="bg-info">
+                <th> Order Status </th>
+                <th class="bg-light">{{order_obj.order_status}}</th>
+            </tr>
+            <tr class="bg-info">
+                <th> Ordered On </th>
+                <th class="bg-light">{{order_obj.created_at}} <br>
+                    {{order_obj.created_at|timesince}} ago
+                </th>
+            </tr>
+            <tr class="bg-info">
+                <th class="bg-info"> Ordered By </th>
+                <th class="bg-light ">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th class="bg-info">Fullname</th>
+                            <th class="bg-light">
+                                <a target="_blank" href="{% url 'ecomapp:customerprofile' %}">
+                                    {{order_obj.ordered_by}}
+                                </a>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th class="bg-info">username</th>
+                            <th class="bg-light">
+                                <a target="_blank" href="{% url 'ecomapp:customerprofile' %}">
+                                    {{order_obj.cart.customer.user.username}}
+                                </a>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th class="bg-info">Email</th>
+                            <th class="bg-light">{{order_obj.email}}</th>
+                        </tr>
+                        <tr>
+                            <th class="bg-info">Phone</th>
+                            <th class="bg-light">{{order_obj.mobile}}</th>
+                        </tr>
+                        <tr>
+                            <th class="bg-info">Address</th>
+                            <th class="bg-light">{{order_obj.shipping_address}}</th>
+                        </tr>
+                    </table>
+                </th>
+            </tr>
+            <tr class="bg-light">
+                <th class="bg-info">Order Items</th>
+                <th>
+                    <table class="table text-center">
+                      <thead>
+                        <tr>
+                            <th class="bg-info" >SN</th>
+                            <th class="bg-info">Product</th>
+                            <th class="bg-info">Rate</th>
+                            <th class="bg-info">Quantity</th>
+                            <th class="bg-info">Subtotal</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for cp in order_obj.cart.cartproduct_set.all %}
+                        <tr>
+                          <th class="bg-light" scope="row">{{forloop.counter}}</th>
+                          <th class="bg-light"  scope="col">
+                              <a target="_blank" href="{% url 'ecomapp:productdetail' cp.product.slug %}">
+                                {{cp.product.title}}
+                              </a>
+                              [ID:{{cp.product.id}}]
+                          </th>
+                          <th class="bg-light"  scope="col">{{cp.rate}}</th>
+                          <th class="bg-light"  scope="col">{{cp.quantity}}</th>
+                          <th class="bg-light"  scope="col">{{cp.subtotal}} DA</th>
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            <th class="bg-info bold" colspan="1">Total</th>
+                            <th class="bg-light bold" colspan="4">{{order_obj.total|intcomma}} DA</th>
+                        </tr>
+                      </tbody>
+                    </table>
+                </th>
+            </tr>
+        </table>
+
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+{% endblock %}

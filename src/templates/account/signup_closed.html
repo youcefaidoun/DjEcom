@@ -1,0 +1,23 @@
+
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Sign Up Closed" %}{% endblock %}
+
+{% block content %}
+<div class="row m-1">
+  <div class="col-md-3"></div>
+  <div class="col-md-6 m-4">
+  	
+<h3 class="navbar-brand">{% trans "Sign Up Closed" %}</h3>
+
+<p>{% trans "We are sorry, but the sign up is currently closed." %}</p>
+
+
+ </div>
+  <div class="col-md-3"></div>
+</div>
+{% endblock %}

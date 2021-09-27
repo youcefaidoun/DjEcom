@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+
+{% block title %}
+        Categories
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row m-4">
+        <nav class="navbar navbar-expand-lg navbar-dark mdb-color lighten-3 mt-3 mb-5 col-md-12">
+        <!-- Navbar brand -->
+        <span class="navbar-brand">Categories:</span>
+
+        <!-- Collapse button -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav" aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Collapsible content -->
+        <div class="collapse navbar-collapse" id="basicExampleNav">
+
+          <!-- Links -->
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link waves-effect waves-light" href="{% url 'ecomapp:home' %}">All
+              </a>
+            </li>
+              {% for category in categories %}
+            <li class="nav-item">
+              <a class="nav-link waves-effect waves-light" href="{% url 'ecomapp:category' category.slug %}">{{category.title}}</a>
+            </li>
+              {% endfor %}
+          </ul>
+          <!-- Links -->
+
+        </div>
+        <!-- Collapsible content -->
+      </nav>
+
+        <div class="col-md-12">
+               <h3 class="navbar-brand">All Products</h3>
+                <div class="row ">
+                    {% for product in product_pages %}
+                    <div class="col-md-3 mt-1 p-1" >
+
+                        <div class="card" >
+                            <img src="{{product.image.url}}"
+                                 class="img-fluid rounded m-auto" style="height:200px; object-fit:contain">
+
+                            <div class="card-body"  style="height:150px; object-fit:contain">
+
+                                <div class="d-flex justify-content-between" >
+                                    <span class="font-weight-bold text-center">
+                                        <a href="{% url 'ecomapp:productdetail' product.slug %}">
+                                        {{product.title}}
+                                        </a>
+                                    </span>
+                                    <span class="font-weight-bold text-center">
+                                            {{product.selling_price}}DA
+                                    </span>
+                                </div>
+
+                                <div class="d-flex align-items-center flex-row" >
+                                    <img src="https://i.imgur.com/e9VnSng.png" width="20">
+                                    <span class="guarantee">
+                                        {{product.warranty}}
+                                    </span>
+                                </div>
+
+                                <hr>
+
+                                <div class="card-body form m-0">
+                                    <div class="text-right buttons">
+                                        <a class="btn btn-dark form-control" href="{% url 'ecomapp:addtocart' product.id %}">
+                                            <span class="oi oi-cart">
+                                                Add
+                                            </span>
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    {% endfor %}
+                </div>
+        </div>
+    </div>
+</div>
+
+{% if product_pages.has_other_pages %}
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+    {% if product_pages.has_previous %}
+    <li class="page-item">
+      <a class="page-link"
+         href="?page={{ product_pages.previous_page_number }}">
+          Previous
+      </a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+      <a class="page-link">
+          Previous
+      </a>
+    </li>
+    {% endif %}
+    {% for page in product_pages.paginator.page_range %}
+      {% if product_pages.number == page %}
+    <li class="page-item active">
+        <a class="page-link">
+            {{page}}
+        </a>
+    </li>
+      {% else %}
+    <li class="page-item">
+        <a class="page-link" href="?page={{page}}">
+            {{page}}
+        </a>
+    </li>
+      {% endif %}
+    {% endfor %}
+    {% if product_pages.has_next %}
+    <li class="page-item">
+      <a class="page-link"
+         href="?page={{ product_pages.next_page_number }}">
+          Next
+      </a>
+    </li>
+      {% else %}
+    <li class="page-item disabled">
+      <a class="page-link">
+          Next
+      </a>
+    </li>
+      {% endif %}
+  </ul>
+</nav>
+{% endif %}
+{% endblock %}

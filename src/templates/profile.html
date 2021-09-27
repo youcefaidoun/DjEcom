@@ -1,0 +1,79 @@
+
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+        Profile
+{% endblock %}
+
+{% block content %}
+    <!-- checkout -->
+
+<div class="row text-center m-1">
+  <div class="col-md-6">
+  		
+      <h3 class="navbar-brand">"{{ user.username }}" Order </h3>
+    <table class="table">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">SN</th>
+          <th scope="col">Order ID</th>
+          <th scope="col">Amount</th>
+          <th scope="col">Ordered</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}
+        <tr>
+          <th scope="row">{{forloop.counter}}</th>
+          <td scope="col">
+              <a href="{% url 'ecomapp:customerorderdetail' order.pk %}">
+                  #ORDER_{{order.id}}
+              </a>
+          </td>
+          <td scope="col">{{order.total}}</td>
+          <td scope="col">{{order.created_at|timesince}} ago</td>
+          <td scope="col">{{order.order_status}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="col-md-1 m-0"></div>
+  <div class="col-md-4">
+        <div class="row">
+        <div class="col-md">
+            <h4 class="m-y-2 mt-4 navbar-brand ">{{ user.username }} Profile</h4>
+            <br>
+            <table class="table table-bordered">
+                <tr>
+                    <th class="bg-info">First Name</th>
+                    <th class="bg-light">{{ user.first_name }}</th>
+                </tr>
+                <tr>
+                    <th class="bg-info">Last Name</th>
+                    <th class="bg-light">{{ user.last_name }}</th>
+                </tr>
+                <tr>
+                    <th class="bg-info">Email</th>
+                    <th class="bg-light">{{user.email}}</th>
+                </tr>
+                <tr>
+                    <th class="bg-info">Organization</th>
+                    <th class="bg-light">{{ user.profile.org }}</th>
+                </tr>
+                <tr>
+                    <th class="bg-info">Telephone</th>
+                    <th class="bg-light">{{ user.profile.telephone }} <br>
+                        
+                    </th>
+                </tr>
+            </table>
+            <button ><a href="{% url 'ecomapp:profile_update' %}">Update Profile</a></button>
+        </div>
+    </div>
+  </div>
+  <div class="col-md-1"></div>
+</div>
+
+{% endblock %}
